@@ -54,7 +54,7 @@ module.exports = {
 			}
 		} catch (error) {
 			console.log(error);
-			return error;
+			return error.message;
 		}
 	},
 
