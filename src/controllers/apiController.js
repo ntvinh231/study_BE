@@ -9,6 +9,16 @@ const getUsersAPI = async (req, res) => {
 	});
 };
 
+const checkBodyMiddleware = async (req, res, next) => {
+	if (!req.body.name || !req.body.email) {
+		return res.status(404).json({
+			errorCode: 0,
+			data: 'missing name or email',
+		});
+	}
+	next();
+};
+
 const postCreateUserAPI = async (req, res) => {
 	let { email, name, city } = req.body;
 
@@ -17,7 +27,7 @@ const postCreateUserAPI = async (req, res) => {
 		name,
 		city,
 	}); //khi khống có key thì sẽ lấy chính nó làm key
-	return res.status(200).json({
+	return res.status(201).json({
 		errorCode: 0,
 		data: user,
 	});
@@ -75,4 +85,5 @@ module.exports = {
 	DeleteUserAPI,
 	postUploadSingleFileAPI,
 	postUploadMultipleFilesAPI,
+	checkBodyMiddleware,
 };

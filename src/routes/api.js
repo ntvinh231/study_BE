@@ -6,6 +6,7 @@ const {
 	DeleteUserAPI,
 	postUploadSingleFileAPI,
 	postUploadMultipleFilesAPI,
+	checkBodyMiddleware,
 } = require('../controllers/apiController');
 
 const {
@@ -24,7 +25,7 @@ const { handleTask, getAllTask, updateTask, deleteTask } = require('../controlle
 const routerAPI = express.Router();
 
 routerAPI.get('/users', getUsersAPI);
-routerAPI.post('/users', postCreateUserAPI);
+routerAPI.post('/users', checkBodyMiddleware, postCreateUserAPI);
 routerAPI.put('/users', putUpdateUserAPI);
 routerAPI.delete('/users', DeleteUserAPI);
 //upload file
