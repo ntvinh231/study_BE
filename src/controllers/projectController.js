@@ -24,6 +24,7 @@ module.exports = {
 		let result = await getAllProjectService(req.query);
 		return res.status(200).json({
 			errorCode: 0,
+			result: result.length,
 			data: result,
 		});
 	},

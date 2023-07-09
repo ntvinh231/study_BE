@@ -11,13 +11,14 @@ const { uploadSingleFile } = require('../services/filesService');
 
 module.exports = {
 	postCreateCustomer: async (req, res) => {
-		let { name, address, phone, email, description } = req.body;
+		let { name, address, phone, email, description, age } = req.body;
 		const schema = Joi.object({
 			name: Joi.string().alphanum().min(3).max(30).required(),
 			address: Joi.string(),
 			phone: Joi.string().pattern(new RegExp('^[0-9]{8,12}$')),
 			email: Joi.string().email(),
 			description: Joi.string(),
+			age: Joi.number(),
 		});
 		const { error } = schema.validate(req.body, { abortEarly: false });
 		if (error) {
@@ -39,6 +40,7 @@ module.exports = {
 				phone,
 				email,
 				description,
+				age,
 				image: imgUrl,
 			};
 			let customer = await createCustomerService(customerData);
@@ -66,7 +68,7 @@ module.exports = {
 	getAllCustomers: async (req, res) => {
 		let result = null;
 		let { limit, page, name } = req.query;
-		if (limit && page) {
+		if (req.query) {
 			result = await getAllCustomerService(limit, page, name, req.query);
 		} else {
 			result = await getAllCustomerService();
@@ -74,6 +76,7 @@ module.exports = {
 		if (result) {
 			res.status(200).json({
 				errorCode: 0,
+				result: result.length,
 				data: result,
 			});
 		} else {

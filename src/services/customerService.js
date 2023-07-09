@@ -9,6 +9,7 @@ module.exports = {
 				phone: customerData.phone || '',
 				email: customerData.email || '',
 				description: customerData.description || '',
+				age: customerData.age || '',
 				image: customerData.image || '',
 			});
 			return result;
@@ -31,11 +32,8 @@ module.exports = {
 	getAllCustomerService: async (limit, page, name, queryString) => {
 		try {
 			let result = null;
-			if (limit && page) {
-				let offset = (page - 1) * limit;
+			if (queryString) {
 				//sử dụng library
-				const { filter } = apq(queryString);
-				delete filter.page;
 
 				// filter tự viết không dùng library
 				// if (name) {
@@ -45,8 +43,12 @@ module.exports = {
 				// 		.exec();
 				// } else result = await Customer.find({}).skip(parseInt(offset)).limit(limit).exec();
 
-				result = await Customer.find(filter).skip(parseInt(offset)).limit(limit).exec();
-			} else result = await Customer.find({});
+				let offset = (page - 1) * limit;
+				const { filter, sort } = apq(queryString);
+				delete filter.page;
+
+				result = await Customer.find(filter).skip(parseInt(offset)).limit(limit).sort(sort).exec();
+			} else result = await Customer.find({}).sort(sort);
 			return result;
 		} catch (error) {
 			console.log(error);

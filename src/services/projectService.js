@@ -85,7 +85,15 @@ module.exports = {
 
 	updateProjectService: async (id, name, endDate, description) => {
 		try {
-			let result = await Project.updateOne({ _id: id }, { name, endDate, description });
+			// let result = await Project.updateOne({ _id: id }, { name, endDate, description });
+			let result = await Project.findByIdAndUpdate(
+				id,
+				{ name, endDate, description },
+				{
+					new: true, // trả về dữ liệu mới sau khi cập nhật thay vì dữ liệu cũ
+					runValidators: true, // bảo rằng dữ liệu mới cập nhật đáp ứng ràng buộc trong model .
+				}
+			);
 			return result;
 		} catch (error) {
 			console.log(error);
