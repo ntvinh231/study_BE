@@ -11,7 +11,7 @@ const { uploadSingleFile } = require('../services/filesService');
 
 module.exports = {
 	postCreateCustomer: async (req, res) => {
-		let { name, address, phone, email, description, age } = req.body;
+		let { name, address, phone, email, description, age, secretCustomer } = req.body;
 		const schema = Joi.object({
 			name: Joi.string().alphanum().min(3).max(30).required(),
 			address: Joi.string(),
@@ -19,10 +19,12 @@ module.exports = {
 			email: Joi.string().email(),
 			description: Joi.string(),
 			age: Joi.number(),
+			secretCustomer: Joi.boolean(),
 		});
 		const { error } = schema.validate(req.body, { abortEarly: false });
 		if (error) {
-			return res.status(200).json({
+			return res.status(404).json({
+				status: 'failed',
 				msg: error,
 			});
 		} else {
@@ -33,7 +35,6 @@ module.exports = {
 				let result = await uploadSingleFile(req.files.image);
 				imgUrl = result.path;
 			}
-
 			let customerData = {
 				name,
 				address,
@@ -41,6 +42,7 @@ module.exports = {
 				email,
 				description,
 				age,
+				secretCustomer,
 				image: imgUrl,
 			};
 			let customer = await createCustomerService(customerData);

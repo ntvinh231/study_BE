@@ -4,13 +4,7 @@ module.exports = {
 	createCustomerService: async (customerData) => {
 		try {
 			let result = Customer.create({
-				name: customerData.name || '',
-				address: customerData.address || '',
-				phone: customerData.phone || '',
-				email: customerData.email || '',
-				description: customerData.description || '',
-				age: customerData.age || '',
-				image: customerData.image || '',
+				...(customerData || ''),
 			});
 			return result;
 		} catch (error) {
@@ -44,11 +38,10 @@ module.exports = {
 				// } else result = await Customer.find({}).skip(parseInt(offset)).limit(limit).exec();
 
 				let offset = (page - 1) * limit;
-				const { filter, sort } = apq(queryString);
+				const { filter, sort, projection } = apq(queryString);
 				delete filter.page;
-
-				result = await Customer.find(filter).skip(parseInt(offset)).limit(limit).sort(sort).exec();
-			} else result = await Customer.find({}).sort(sort);
+				result = await Customer.find(filter).skip(parseInt(offset)).limit(limit).sort(sort).select(projection).exec();
+			} else result = await Customer.find({});
 			return result;
 		} catch (error) {
 			console.log(error);
