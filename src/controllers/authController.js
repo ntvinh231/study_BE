@@ -11,17 +11,11 @@ const signInToken = (id) => {
 
 export const signUp = async (req, res, next) => {
 	try {
-		const newUser = await User.create({
-			name: req.body.name,
-			email: req.body.email,
-			password: req.body.password,
-			passwordConfirm: req.body.passwordConfirm,
-		});
+		const newUser = await User.create(req.body);
 
 		res.status(201).json({
 			status: 201,
 			message: 'Registered successfully!',
-			token,
 			data: newUser,
 		});
 	} catch (error) {

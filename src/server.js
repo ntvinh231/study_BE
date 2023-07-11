@@ -18,7 +18,11 @@ app.use(fileUpload({ createParentPath: true }));
 //config req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use((req, res, next) => {
+	req.requestTime = new Date().toISOString();
+	// console.log(req.headers);
+	next();
+});
 //config template engine
 configViewEngine(app);
 

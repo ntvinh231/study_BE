@@ -50,8 +50,8 @@ routerAPI.get('/info/:name/:address', (req, res) => {
 //------------ Project ---------------
 import checkAuth from '../middleware/checkAuth.js';
 
-routerAPI.post('/project', checkAuth, handleProject);
-routerAPI.get('/project', getAllProject);
+routerAPI.post('/project', handleProject);
+routerAPI.get('/project', checkAuth, getAllProject);
 routerAPI.delete('/project', deleteProject);
 routerAPI.put('/project', updateProject);
 
