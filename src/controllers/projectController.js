@@ -19,7 +19,6 @@ export const handleProject = async (req, res) => {
 		});
 	}
 };
-
 export const getAllProject = async (req, res) => {
 	let result = await getAllProjectService(req.query);
 	return res.status(200).json({
