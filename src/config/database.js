@@ -1,6 +1,6 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
-
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+dotenv.config();
 const dbState = [
 	{ value: 0, label: 'disconnected' },
 	{ value: 1, label: 'connected' },
@@ -19,4 +19,4 @@ const connection = async () => {
 	console.log(dbState.find((f) => f.value === state).label, 'to db'); // connected to db
 };
 
-module.exports = connection;
+export default connection;

@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const mongoose_delete = require('mongoose-delete');
+import mongoose from 'mongoose';
+import mongoose_delete from 'mongoose-delete';
 
 const customerSchema = new mongoose.Schema(
 	{
@@ -37,4 +37,4 @@ customerSchema.pre(/^find/, function (next) {
 });
 
 const Customer = mongoose.model('Customer', customerSchema);
-module.exports = Customer;
+export default Customer;

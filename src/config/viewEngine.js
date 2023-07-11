@@ -1,5 +1,5 @@
-const path = require('path');
-const express = require('express');
+import path from 'path';
+import express from 'express';
 const configViewEngine = (app) => {
 	//khi truy cập tên file có trong views hoặc public
 	//tự hiểu là tìm đến views hoặc public không cần trỏ vào
@@ -9,4 +9,4 @@ const configViewEngine = (app) => {
 	app.use(express.static(path.join('./src', 'public')));
 };
 
-module.exports = configViewEngine;
+export default configViewEngine;

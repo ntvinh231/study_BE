@@ -1,8 +1,8 @@
-const path = require('path');
+import path from 'path';
 // Array of allowed files
 const array_of_allowed_files = ['png', 'jpeg', 'jpg', 'gif'];
 const array_of_allowed_file_types = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-const uploadSingleFile = async (fileObject) => {
+export const uploadSingleFile = async (fileObject) => {
 	let mimetype = fileObject.mimetype;
 	let ext_name = path.extname(fileObject.name);
 	let base_name = path.basename(fileObject.name, ext_name);
@@ -30,7 +30,7 @@ const uploadSingleFile = async (fileObject) => {
 	}
 };
 
-const uploadMultipleFiles = async (fileArray) => {
+export const uploadMultipleFiles = async (fileArray) => {
 	let resultArr = []; //Là array trả về json một mảng
 	let countSucess = 0;
 	for (let i = 0; i < fileArray.length; i++) {
@@ -63,9 +63,4 @@ const uploadMultipleFiles = async (fileArray) => {
 		countSucess,
 		detail: resultArr,
 	};
-};
-
-module.exports = {
-	uploadSingleFile,
-	uploadMultipleFiles,
 };

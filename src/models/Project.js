@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const mongoose_delete = require('mongoose-delete');
+import mongoose from 'mongoose';
+import mongoose_delete from 'mongoose-delete';
 
 //shape data
 const customerSchema = new mongoose.Schema({
@@ -37,4 +37,4 @@ projectSchema.plugin(mongoose_delete, { overrideMethods: 'all' });
 
 const Project = mongoose.model('Project', projectSchema);
 
-module.exports = Project;
+export default Project;

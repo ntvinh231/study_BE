@@ -1,7 +1,7 @@
-const User = require('../models/User');
-const { uploadSingleFile, uploadMultipleFiles } = require('../services/filesService');
+import User from '../models/User.js';
+import { uploadSingleFile, uploadMultipleFiles } from '../services/filesService.js';
 
-const getUsersAPI = async (req, res) => {
+export const getUsersAPI = async (req, res) => {
 	let results = await User.find({});
 	return res.status(200).json({
 		errorCode: 0,
@@ -9,7 +9,7 @@ const getUsersAPI = async (req, res) => {
 	});
 };
 
-const checkBodyMiddleware = async (req, res, next) => {
+export const checkBodyMiddleware = async (req, res, next) => {
 	if (!req.body.name || !req.body.email) {
 		return res.status(404).json({
 			errorCode: 0,
@@ -19,7 +19,7 @@ const checkBodyMiddleware = async (req, res, next) => {
 	next();
 };
 
-const postCreateUserAPI = async (req, res) => {
+export const postCreateUserAPI = async (req, res) => {
 	let { email, name, city } = req.body;
 
 	let user = await User.create({
@@ -33,7 +33,7 @@ const postCreateUserAPI = async (req, res) => {
 	});
 };
 
-const putUpdateUserAPI = async (req, res) => {
+export const putUpdateUserAPI = async (req, res) => {
 	let { id, email, name, city } = req.body;
 	let user = await User.updateOne({ _id: id }, { email, name, city });
 	return res.status(200).json({
@@ -42,7 +42,7 @@ const putUpdateUserAPI = async (req, res) => {
 	});
 };
 
-const DeleteUserAPI = async (req, res) => {
+export const DeleteUserAPI = async (req, res) => {
 	let { id } = await req.body;
 	let user = await User.deleteOne({ _id: id });
 	return res.status(200).json({
@@ -51,7 +51,7 @@ const DeleteUserAPI = async (req, res) => {
 	});
 };
 
-const postUploadSingleFileAPI = async (req, res) => {
+export const postUploadSingleFileAPI = async (req, res) => {
 	if (!req.files || Object.keys(req.files).length == 0) {
 		return res.status(400).send('No files were upload');
 	}
@@ -63,7 +63,7 @@ const postUploadSingleFileAPI = async (req, res) => {
 	});
 };
 
-const postUploadMultipleFilesAPI = async (req, res) => {
+export const postUploadMultipleFilesAPI = async (req, res) => {
 	if (!req.files || Object.keys(req.files).length == 0) {
 		return res.status(400).send('No files were upload');
 	}
@@ -76,14 +76,4 @@ const postUploadMultipleFilesAPI = async (req, res) => {
 	} else {
 		return postUploadSingleFileAPI(req, res);
 	}
-};
-
-module.exports = {
-	getUsersAPI,
-	postCreateUserAPI,
-	putUpdateUserAPI,
-	DeleteUserAPI,
-	postUploadSingleFileAPI,
-	postUploadMultipleFilesAPI,
-	checkBodyMiddleware,
 };

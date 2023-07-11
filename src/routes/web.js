@@ -1,13 +1,13 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
 	getHomePage,
-	postCreateUser,
 	getCreatePage,
+	postCreateUser,
 	getUpdatePage,
 	postUpdateUser,
 	postDeleteUserPage,
 	postDeleteUser,
-} = require('../controllers/homeController');
+} from '../controllers/homeController.js';
 const router = express.Router();
 
 //Route.Method('/route/, handler) để sử lý với MVC
@@ -25,4 +25,4 @@ router.get('/vinh', (req, res) => {
 	res.render('sample.ejs');
 });
 
-module.exports = router; //export default
+export default router; //export default

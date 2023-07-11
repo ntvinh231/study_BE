@@ -1,5 +1,5 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
 	getUsersAPI,
 	postCreateUserAPI,
 	putUpdateUserAPI,
@@ -7,20 +7,20 @@ const {
 	postUploadSingleFileAPI,
 	postUploadMultipleFilesAPI,
 	checkBodyMiddleware,
-} = require('../controllers/apiController');
+} from '../controllers/apiController.js';
 
-const {
+import {
 	postCreateCustomer,
 	postCreateArrayCustomer,
 	getAllCustomers,
 	putUpdateCustomer,
 	deleteACustomer,
 	deleteArrayCustomer,
-} = require('../controllers/customerController');
+} from '../controllers/customerController.js';
 
-const { handleProject, getAllProject, deleteProject, updateProject } = require('../controllers/projectController');
+import { handleProject, getAllProject, deleteProject, updateProject } from '../controllers/projectController.js';
 
-const { handleTask, getAllTask, updateTask, deleteTask } = require('../controllers/taskController');
+import { handleTask, getAllTask, updateTask, deleteTask } from '../controllers/taskController.js';
 
 const routerAPI = express.Router();
 
@@ -48,7 +48,9 @@ routerAPI.get('/info/:name/:address', (req, res) => {
 });
 
 //------------ Project ---------------
-routerAPI.post('/project', handleProject);
+import checkAuth from '../middleware/checkAuth.js';
+
+routerAPI.post('/project', checkAuth, handleProject);
 routerAPI.get('/project', getAllProject);
 routerAPI.delete('/project', deleteProject);
 routerAPI.put('/project', updateProject);
@@ -59,4 +61,10 @@ routerAPI.get('/task', getAllTask);
 routerAPI.put('/task', updateTask);
 routerAPI.delete('/task', deleteTask);
 
-module.exports = routerAPI; //export default
+import { signUp, signIn } from '../controllers/authController.js';
+
+// Authencation
+routerAPI.post('/signup', signUp);
+routerAPI.post('/signin', signIn);
+
+export default routerAPI; //export default

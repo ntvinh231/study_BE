@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const mongoose_delete = require('mongoose-delete');
+import mongoose from 'mongoose';
+import mongoose_delete from 'mongoose-delete';
 
 const userSchema = new mongoose.Schema({
 	name: String,
@@ -37,4 +37,4 @@ const taskSchema = new mongoose.Schema(
 taskSchema.plugin(mongoose_delete, { overrideMethods: 'all' });
 const Task = mongoose.model('Task', taskSchema);
 
-module.exports = Task;
+export default Task;
