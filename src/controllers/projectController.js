@@ -31,8 +31,10 @@ export const getAllProject = async (req, res) => {
 export const deleteProject = async (req, res) => {
 	let result = null;
 	if (req.body.project_id) {
+		//delete project array
 		result = await deleteProjectService(req.body.project_id);
 	} else {
+		//delete a project
 		result = await deleteProjectService(req.body.id);
 	}
 	return res.status(200).json({

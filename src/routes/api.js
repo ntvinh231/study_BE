@@ -21,13 +21,14 @@ import {
 import { handleProject, getAllProject, deleteProject, updateProject } from '../controllers/projectController.js';
 
 import { handleTask, getAllTask, updateTask, deleteTask } from '../controllers/taskController.js';
+import { signUp, signIn, forgotPassword, resetPassword } from '../controllers/authController.js';
 
 const routerAPI = express.Router();
 
-routerAPI.get('/users', getUsersAPI);
-routerAPI.post('/users', checkBodyMiddleware, postCreateUserAPI);
-routerAPI.put('/users', putUpdateUserAPI);
-routerAPI.delete('/users', DeleteUserAPI);
+routerAPI.get(process.env.URL_ROUTE_USER, getUsersAPI);
+routerAPI.post(process.env.URL_ROUTE_USER, checkBodyMiddleware, postCreateUserAPI);
+routerAPI.put(process.env.URL_ROUTE_USER, putUpdateUserAPI);
+routerAPI.delete(process.env.URL_ROUTE_USER, DeleteUserAPI);
 //upload file
 routerAPI.post('/file', postUploadSingleFileAPI);
 routerAPI.post('/files', postUploadMultipleFilesAPI);
@@ -49,10 +50,11 @@ routerAPI.get('/info/:name/:address', (req, res) => {
 
 //------------ Project ---------------
 import checkAuth from '../middleware/checkAuth.js';
+import restricTo from '../middleware/checkRole.js';
 
 routerAPI.post('/project', handleProject);
-routerAPI.get('/project', checkAuth, getAllProject);
-routerAPI.delete('/project', deleteProject);
+routerAPI.get('/project', checkAuth, restricTo('admin', 'lead'), getAllProject);
+routerAPI.delete('/project', checkAuth, restricTo('admin', 'lead'), deleteProject);
 routerAPI.put('/project', updateProject);
 
 //------------ Task ---------------
@@ -61,10 +63,9 @@ routerAPI.get('/task', getAllTask);
 routerAPI.put('/task', updateTask);
 routerAPI.delete('/task', deleteTask);
 
-import { signUp, signIn } from '../controllers/authController.js';
-
 // Authencation
 routerAPI.post('/signup', signUp);
 routerAPI.post('/signin', signIn);
-
+routerAPI.post('/forgotPassword', forgotPassword);
+routerAPI.patch('/resetPassword/:token', resetPassword);
 export default routerAPI; //export default

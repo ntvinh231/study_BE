@@ -28,7 +28,7 @@ configViewEngine(app);
 
 //khai báo route
 app.use('/', webRoutes); // / là route mặc dịnh
-app.use('/v1/api', apiRoutes); //tiền tố đầu tiên sẽ đúng sau đường link khai báo
+app.use(process.env.URL_VERSION, apiRoutes); //tiền tố đầu tiên sẽ đúng sau đường link khai báo
 
 // Check route
 app.all('*', (req, res, next) => {
